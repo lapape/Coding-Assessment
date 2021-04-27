@@ -1,0 +1,20 @@
+body {
+  background-color: aquamarine;
+}
+
+#questions-screen {
+  display: none;
+}
+
+#time-up {
+  display: none;
+}
+
+#final-screen {
+  display: none;
+}
+
+img {
+  height: 600px;
+  width: 600px;
+}

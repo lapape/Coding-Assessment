@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Coding Assessment</title>
+    <link rel="stylesheet" href="./assets/style.css" />
+  </head>
+  <body>
+    <header id="timer"></header>
+    <section id="intro">
+      <h1>Test your knowledge! Timed Coding assessment</h1>
+      <img
+        src="https://images.unsplash.com/photo-1542831371-29b0f74f9713?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80"
+        alt="Pic of code"
+      />
+      <button id="start-button">Start the test!</button>
+    </section>
+    <section id="questions-screen">
+      <h1 id="question-text">Question text:</h1>
+      <select id="response">
+        <option value="">--Please choose an answer--</option>
+        <option id="answer-1">Answer1</option>
+        <option id="answer-2">Answer2</option>
+        <option id="answer-3">Answer3</option>
+        <option id="answer-4">Answer4</option>
+      </select>
+      <button id="submit-button">Submit Answer</button>
+    </section>
+    <section id="time-up">
+      <h1>⏰TIME IS UP!!!!!⏰</h1>
+      <button id="time-up-button">OK 😥</button>
+    </section>
+    <section id="final-screen">
+      <h1 id="final-score"></h1>
+    </section>
+  </body>
+  <script src="assets/script.js"></script>
+</html>
