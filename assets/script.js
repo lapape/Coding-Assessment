@@ -1,3 +1,4 @@
+//variable declaration
 var introScreen = document.querySelector("#intro");
 var timerScreen = document.querySelector("#timer");
 var questionScreen = document.querySelector("#questions-screen");
@@ -7,7 +8,6 @@ var scoreButton = document.querySelector("#initials-button");
 var finalScreen = document.querySelector("#final-screen");
 var finalScoreDisplay = document.querySelector("#final-score");
 var startButton = document.querySelector("#start-button");
-var timeUpButton = document.querySelector("#time-up-button");
 var userResponse = document.querySelector("#response");
 var submitButton = document.querySelector("#submit-button");
 var questionText = document.querySelector("#question-text");
@@ -18,12 +18,14 @@ var option4 = document.querySelector("#answer-4");
 var initialDisplay = document.querySelector("#initial-display");
 var playerInitials = document.querySelector("#player-initials");
 var scoreUl = document.querySelector("#scores");
+//an array that starts out as empty, then parses items from storage to display
 var finalScoreList = JSON.parse(localStorage.getItem("scores")) || [];
 var randomQuestion;
 var userAnswer;
 var playerScore = 0;
 var timeLeft = 60;
 
+//array of questions and answers
 var quiz = [
   {
     question: "What does DOM stand for?",
@@ -71,13 +73,17 @@ var quiz = [
     correctAnswer: "True",
   },
 ];
+//set variable for current position in array
 var currentQuestion = quiz[0];
+//variable to target the numerical value of the index of the current question
 var index = quiz.indexOf(currentQuestion);
+
+//event listeners to use buttons
 startButton.addEventListener("click", startGame);
-// timeUpButton.addEventListener("click", renderScore);
 submitButton.addEventListener("click", checkAnswer);
 scoreButton.addEventListener("click", displayScore);
 
+//timer function, counting down by one second and displaying the current time in the header
 function startTime() {
   timerScreen.textContent = "Time remaining: " + timeLeft;
   var timerInterval = setInterval(function () {
@@ -86,15 +92,19 @@ function startTime() {
     if (timeLeft <= 0) {
       clearInterval(timerInterval);
       timerScreen.textContent = "Time remaining: 0";
+      renderFinalScore();
       return;
     }
   }, 1000);
 }
 
+//function that changes display to the current question and starts the timer
 function startGame() {
   startTime();
   introScreen.style.display = "none";
-  questionScreen.style.display = "block";
+  scoreScreen.style.display = "none";
+  timerScreen.style.display = "block";
+  questionScreen.style.display = "flex";
 
   questionText.textContent = currentQuestion.question;
   option1.textContent = currentQuestion.answers[0];
@@ -103,6 +113,7 @@ function startGame() {
   option4.textContent = currentQuestion.answers[3];
 }
 
+//function that checks if answer is correct, adds to player score if true, takes away time if false.  Also increments the index of the question array to display the next question
 function checkAnswer() {
   if (index + 1 === quiz.length) {
     renderFinalScore();
@@ -113,7 +124,7 @@ function checkAnswer() {
   if (userAnswer === currentQuestion.correctAnswer) {
     playerScore++;
   } else {
-    timeLeft -= 5;
+    timeLeft -= 10;
   }
   index++;
   currentQuestion = quiz[index];
@@ -126,20 +137,20 @@ function checkAnswer() {
   option4.textContent = currentQuestion.answers[3];
 }
 
+//function that displays the players score and an input for their initials
 function renderFinalScore() {
-  timeUpScreen.style.display = "none";
+  timerScreen.style.display = "none";
   questionScreen.style.display = "none";
-  finalScreen.style.display = "block";
+  finalScreen.style.display = "flex";
   finalScoreDisplay.textContent = "Final Score: " + playerScore;
 }
 
+//function that displays the players previous scores, stores the current score into an array, turns the array into a string, and stores the string in local storage.  For each new score submitted, a list item element is added to display
 function displayScore() {
-  console.log(playerInitials.value);
   finalScreen.style.display = "none";
-  scoreScreen.style.display = "block";
+  scoreScreen.style.display = "flex";
   let scoreObject = { initials: playerInitials.value, score: playerScore };
   finalScoreList.push(scoreObject);
-  console.log(finalScoreList);
   localStorage.setItem("scores", JSON.stringify(finalScoreList));
   for (var i = 0; i < finalScoreList.length; i++) {
     var newLi = document.createElement("LI");
@@ -148,4 +159,3 @@ function displayScore() {
     scoreUl.appendChild(newLi);
   }
 }
-console.log(finalScoreList);
