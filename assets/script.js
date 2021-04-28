@@ -139,6 +139,7 @@ function checkAnswer() {
 
 //function that displays the players score and an input for their initials
 function renderFinalScore() {
+  timeLeft = null;
   timerScreen.style.display = "none";
   questionScreen.style.display = "none";
   finalScreen.style.display = "flex";
