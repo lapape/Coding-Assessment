@@ -1,6 +1,6 @@
-body {
+/* body {
   background-color: aquamarine;
-}
+} */
 
 #questions-screen {
   display: none;
@@ -9,14 +9,14 @@ body {
 #time-up {
   display: none;
 }
-
+/* 
 #final-screen {
   display: none;
-}
-
+} */
+/* 
 #score-screen {
   display: none;
-}
+} */
 
 img {
   height: 600px;

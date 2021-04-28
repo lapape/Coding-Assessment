@@ -16,7 +16,9 @@ var option2 = document.querySelector("#answer-2");
 var option3 = document.querySelector("#answer-3");
 var option4 = document.querySelector("#answer-4");
 var initialDisplay = document.querySelector("#initial-display");
-
+var playerInitials = document.querySelector("#player-initials");
+var scoreUl = document.querySelector("#scores");
+var finalScoreList = JSON.parse(localStorage.getItem("scores")) || [];
 var randomQuestion;
 var userAnswer;
 var playerScore = 0;
@@ -32,7 +34,6 @@ var quiz = [
       "Development Origin Model",
     ],
     correctAnswer: "Document Object Model",
-    asked: false,
   },
   {
     question: "How to stop a button from refreshing the page?",
@@ -43,7 +44,6 @@ var quiz = [
       "document.cancelDefault();",
     ],
     correctAnswer: "event.preventDefault();",
-    asked: false,
   },
   {
     question: "How to store data in local storage?",
@@ -54,7 +54,6 @@ var quiz = [
       "localStorage.setItem();",
     ],
     correctAnswer: "localStorage.setItem();",
-    asked: false,
   },
   {
     question: "How to view what is currently in local storage in the browser?",
@@ -65,13 +64,11 @@ var quiz = [
       "Inspect->Application->Cache",
     ],
     correctAnswer: "Inspect->Application->Local Storage->file",
-    asked: false,
   },
   {
     question: "Which is a primitive boolean value?",
     answers: ["True", "undefined", "0", "Yes"],
     correctAnswer: "True",
-    asked: false,
   },
 ];
 var currentQuestion = quiz[0];
@@ -79,20 +76,31 @@ var index = quiz.indexOf(currentQuestion);
 startButton.addEventListener("click", startGame);
 // timeUpButton.addEventListener("click", renderScore);
 submitButton.addEventListener("click", checkAnswer);
-// scoreButton.addEventListener("click", displayScore);
+scoreButton.addEventListener("click", displayScore);
+
+function startTime() {
+  timerScreen.textContent = "Time remaining: " + timeLeft;
+  var timerInterval = setInterval(function () {
+    timeLeft--;
+    timerScreen.textContent = "Time remaining: " + timeLeft;
+    if (timeLeft <= 0) {
+      clearInterval(timerInterval);
+      timerScreen.textContent = "Time remaining: 0";
+      return;
+    }
+  }, 1000);
+}
 
 function startGame() {
-  //start timer
+  startTime();
   introScreen.style.display = "none";
   questionScreen.style.display = "block";
 
-  // randomQuestion = quiz[Math.floor(Math.random() * quiz.length)];
   questionText.textContent = currentQuestion.question;
   option1.textContent = currentQuestion.answers[0];
   option2.textContent = currentQuestion.answers[1];
   option3.textContent = currentQuestion.answers[2];
   option4.textContent = currentQuestion.answers[3];
-  // randomQuestion.asked = true;
 }
 
 function checkAnswer() {
@@ -116,17 +124,6 @@ function checkAnswer() {
   option2.textContent = currentQuestion.answers[1];
   option3.textContent = currentQuestion.answers[2];
   option4.textContent = currentQuestion.answers[3];
-
-  // do {
-  //   randomQuestion = quiz[Math.floor(Math.random() * quiz.length)];
-  //   questionText.textContent = randomQuestion.question;
-  //   option1.textContent = randomQuestion.answers[0];
-  //   option2.textContent = randomQuestion.answers[1];
-  //   option3.textContent = randomQuestion.answers[2];
-  //   option4.textContent = randomQuestion.answers[3];
-  //   randomQuestion.asked = true;
-  // } while (randomQuestion.asked === false);
-  // renderFinalScore();
 }
 
 function renderFinalScore() {
@@ -136,8 +133,19 @@ function renderFinalScore() {
   finalScoreDisplay.textContent = "Final Score: " + playerScore;
 }
 
-// function displayScore() {
-//   finalScreen.style.display = "none";
-//   scoreScreen.style.display = "block";
-//   initialDisplay.textContent =
-// }
+function displayScore() {
+  console.log(playerInitials.value);
+  finalScreen.style.display = "none";
+  scoreScreen.style.display = "block";
+  let scoreObject = { initials: playerInitials.value, score: playerScore };
+  finalScoreList.push(scoreObject);
+  console.log(finalScoreList);
+  localStorage.setItem("scores", JSON.stringify(finalScoreList));
+  for (var i = 0; i < finalScoreList.length; i++) {
+    var newLi = document.createElement("LI");
+    newLi.textContent =
+      finalScoreList[i].initials + ":   " + finalScoreList[i].score;
+    scoreUl.appendChild(newLi);
+  }
+}
+console.log(finalScoreList);
